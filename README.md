@@ -1,15 +1,13 @@
-# Sample Nginx Docker Project with Kubernetes Deployment
+# Sample Project Overview
 
-This project demonstrates how to build and deploy a simple Docker image using Nginx. It includes a GitHub Actions workflow for automated Docker image building and pushing, as well as Kubernetes configuration files for deploying the image to a Kubernetes cluster.
+This project demonstrates how to build and deploy a simple Docker image using Nginx within a Kubernetes environment. It includes a comprehensive setup for automating the build and deployment process using GitHub Actions. The workflow handles the following tasks:
 
-## Key Features
+- **Docker Image Building**: Creates a Docker image with Nginx, configured to serve static content.
+- **Docker Image Pushing**: Pushes the built Docker image to Docker Hub.
+- **Kubernetes Deployment**: Deploys the Docker image to a Kubernetes cluster using a deployment.yaml and service.yaml configuration (note that there is currently no cluster defined so the deployment step fails by design).
+- **Automated CI/CD Pipeline**: Utilizes GitHub Actions to automate the entire process by leveraging the power of continuous integration and continuous deployment (CI/CD) practices, ensuring that every push to the main branch triggers the build, push, and deployment steps.
 
-- **Docker**: Packages the Nginx application into a container image.
-- **GitHub Actions**: Automates the building and pushing of the Docker image to Docker Hub.
-- **Kubernetes Deployment**: Manages the deployment of the Nginx container, ensuring the desired number of replicas are running.
-- **Kubernetes Service**: Exposes the Nginx application to the outside world, allowing access via a LoadBalancer.
-
-At a later point, Terraform for Infrastructure as Code (IaC), and automated integration and end-to-end (E2E) testing with Robot Framework will be introduced.
+At a later point, Terraform for Infrastructure as Code (IaC) to manage AWS resources like EKS, and automated integration and end-to-end (E2E) testing with Robot Framework will be introduced.
 
 ## Project Structure
 
@@ -17,7 +15,7 @@ At a later point, Terraform for Infrastructure as Code (IaC), and automated inte
 sample/
 ├── .github/
 │   └── workflows/
-│       └── docker-build.yml
+│       └── ci-cd-pipeline.yml
 ├── src/
 │   ├── nginx.conf
 │   └── index.html
