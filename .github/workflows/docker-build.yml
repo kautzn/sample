@@ -1,4 +1,4 @@
-name: Build and Push Docker Image
+name: Build and Push Docker Image, Kubernetes deployment
 
 on:
   push:
@@ -34,3 +34,24 @@ jobs:
         tags: |
           ${{ secrets.DOCKER_USERNAME }}/sample:${{ env.VERSION }}
           ${{ secrets.DOCKER_USERNAME }}/sample:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Extract version from file
+      id: vars
+      run: echo "VERSION=$(cat VERSION)" >> $GITHUB_ENV
+
+    - name: Replace version in Kubernetes deployment
+      run: |
+        sed -i "s/VERSION_PLACEHOLDER/${{ env.VERSION }}/g" k8s/deployment.yaml
+
+    - name: Apply Kubernetes deployment
+      run: |
+        kubectl apply -f k8s/deployment.yaml
+        kubectl apply -f k8s/service.yaml
